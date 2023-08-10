@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %} {% block content %} {% load embed_video_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JJ Gaming</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        background-color: black;
+        color: #ffffff;
+      }
+
+      .container {
+        padding-top: 30px;
+      }
+
+      h1 {
+        font-size: 36px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      p.text-center {
+        font-size: 24px;
+      }
+
+      select.form-select {
+        background-color: #2b3035;
+        color: #ffffff;
+      }
+
+      option {
+        background-color: #2b3035;
+        color: #ffffff;
+      }
+
+      .row.justify-content-center {
+        margin-top: 20px;
+      }
+
+      .col-md-4.mb-4 {
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>¡Bienvenidos a Call of Duty!</h1>
+      <p class="text-center">Selecciona un género:</p>
+      <div class="d-flex justify-content-center mb-4">
+        <select
+          name="paginas"
+          id="genreSelect"
+          class="form-select w-50"
+          onchange="changeGenre()"
+        >
+          <option value="">Selecciona un género</option>
+          <option value="http://127.0.0.1:8000/products/">Principal</option>
+          <option value="http://127.0.0.1:8000/Reggaeton">Old school</option>
+          <option value="http://127.0.0.1:8000/Trap">Gta V</option>
+          <option value="http://127.0.0.1:8000/House">Call of Duty</option>
+        </select>
+      </div>
+      <div class="row justify-content-center">
+        {% for i in obj %}
+        <div class="col-md-4 mb-4">
+          {% video i.video 'small' %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <script>
+      function changeGenre() {
+        const selectElement = document.getElementById("genreSelect");
+        const selectedGenre = selectElement.value;
+        if (selectedGenre) {
+          window.location.href = selectedGenre;
+        }
+      }
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
+{% endblock %}
