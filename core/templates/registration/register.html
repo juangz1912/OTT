@@ -1,25 +1,109 @@
-{% extends 'core/base.html' %} {% block content %} {% load crispy_forms_tags %}
+{% extends 'core/base.html' %} 
+{% block content %} 
+{% load crispy_forms_tags %}
 
-<h3>Registro de usuario</h3>
+<style>
+  .subscription-btn {
+    background-color: #ffd700;
+    border-color: #ffd700;
+  }
 
-<br />
+  .subscription-btn.premium {
+    background-color: #e5e4e2;
+    border-color: #e5e4e2;
+  }
 
-<form action="" method="post">
-  {% csrf_token %}
+  .subscription-form label {
+    color: #ffffff;
+  }
+</style>
 
-  <div class="card mx-auto" style="width: 30rem;" data-bs-theme="dark">
-    <div class="card-body">
-      <h5 class="card-title">Complete todos los campos</h5>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Registro de usuario</h3>
 
-        {{ form | crispy}}
-      
-      <a href={% url 'home' %} class="card-link">Inicio</a>
-      <a href={% url 'login' %} class="card-link">Iniciar sesion</a>
+      <br />
 
-      <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button>
+      <form id="registration-form" method="post">
+        {% csrf_token %}
+
+        <div class="card bg-black text-white" data-bs-theme="dark">
+          <div class="card-body">
+            <h5 class="card-title">Complete todos los campos</h5>
+            {{ form | crispy}}
+            <label for="{{ form.card_number.id_for_label }}">Número de tarjeta</label>
+            {{ form.card_number }}
+            <label for="{{ form.expiry_date.id_for_label }}">Fecha de expiración</label>
+            {{ form.expiry_date }}
+            <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="col-md-4">
+      <h3 class="text-white">Subscripciones</h3>
+      <div class="card bg-black text-white" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Selecciona una suscripción</h5>
+          <p class="card-text">Elige la suscripción que mejor se adapte a ti.</p>
+          <div class="text-center">
+            <a href="#" class="btn btn-lg mb-3 subscription-btn" data-form="gold-form">Gold Subscription</a>
+            <a href="#" class="btn btn-lg mb-3 subscription-btn premium" data-form="premium-form">Premium Subscription</a>
+          </div>
+        </div>
+      </div>
+      <div id="gold-form" class="subscription-form" style="display: none;">
+        <h4 class="text-white mt-3">Completa los datos de tu tarjeta</h4>
+        <form id="gold-subscription-form" class="mt-3">
+          {% csrf_token %}
+          <label for="gold-card-number">Número de tarjeta</label>
+          <input type="text" id="gold-card-number" name="gold-card-number" class="form-control">
+          <label for="gold-expiry-date">Fecha de expiración</label>
+          <input type="text" id="gold-expiry-date" name="gold-expiry-date" class="form-control">
+          <button class="btn btn-primary submit-subscription" type="button">Confirmar</button>
+        </form>
+      </div>
+      <div id="premium-form" class="subscription-form" style="display: none;">
+        <h4 class="text-white mt-3">Completa los datos de tu tarjeta</h4>
+        <form id="premium-subscription-form" class="mt-3">
+          {% csrf_token %}
+          <label for="premium-card-number">Número de tarjeta</label>
+          <input type="text" id="premium-card-number" name="premium-card-number" class="form-control">
+          <label for="premium-expiry-date">Fecha de expiración</label>
+          <input type="text" id="premium-expiry-date" name="premium-expiry-date" class="form-control">
+          <button class="btn btn-success submit-subscription" type="button">Confirmar</button>
+        </form>
+      </div>
     </div>
   </div>
+</div>
 
-</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".subscription-btn").click(function() {
+      $(".subscription-form").hide();
+      $("#" + $(this).data("form")).show();
+    });
+
+    $(".submit-subscription").click(function() {
+      var formId = $(this).closest("form").attr("id");
+      var formData = $("#" + formId).serialize();
+
+      $.ajax({
+        type: "POST",
+        data: formData,
+        success: function(response) {
+          alert("¡Suscripción exitosa!"); // Puedes mostrar una alerta o realizar otras acciones
+        },
+        error: function(xhr, status, error) {
+          alert("Error en la suscripción: " + error); // Manejo de errores
+        }
+      });
+    });
+  });
+</script>
 
 {% endblock %}
