@@ -33,10 +33,6 @@
           <div class="card-body">
             <h5 class="card-title">Complete todos los campos</h5>
             {{ form | crispy}}
-            <label for="{{ form.card_number.id_for_label }}">Número de tarjeta</label>
-            {{ form.card_number }}
-            <label for="{{ form.expiry_date.id_for_label }}">Fecha de expiración</label>
-            {{ form.expiry_date }}
             <button class="btn btn-sm btn-primary float-end" type="submit">Registrarse</button>
           </div>
         </div>
