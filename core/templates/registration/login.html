@@ -22,6 +22,37 @@
       <a href="{% url 'register' %}" class="card-link">Registrase</a>
 
       <button class="btn btn-sm btn-primary float-end" type="submit">Iniciar Sesión</button>
+      
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {{ form.non_field_errors.as_text }}
+        </div>
+      {% endif %}
+      
+      {% if form.username.errors %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {{ form.username.errors.as_text }}
+        </div>
+      {% endif %}
+      
+      {% if form.password.errors %}
+        <div class="alert alert-danger mt-3" role="alert">
+          {{ form.password.errors.as_text }}
+        </div>
+      {% endif %}
+      
+      {% if form.password.value|length < 8 %}
+        <div class="alert alert-danger mt-3" role="alert">
+          La contraseña debe tener al menos 8 caracteres.
+        </div>
+      {% endif %}
+      
+      {% if form.password.value|length >= 8 and form.password.value|isdigit %}
+        <div class="alert alert-danger mt-3" role="alert">
+          La contraseña no puede consistir solo en números.
+        </div>
+      {% endif %}
+      
     </div>
   </div>
 </form>
