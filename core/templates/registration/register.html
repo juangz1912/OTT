@@ -16,6 +16,7 @@
   .subscription-form label {
     color: #ffffff;
   }
+
 </style>
 
 <div class="container">
@@ -53,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div id="gold-form" class="subscription-form" style="display: none;">
+      <div id="gold-form" class="subscription-form" style="display: none;" data-bs-theme="dark">
         <h4 class="text-white mt-3">Completa los datos de tu tarjeta</h4>
         <form id="gold-subscription-form" class="mt-3">
           {% csrf_token %}
@@ -61,10 +62,11 @@
           <input type="text" id="gold-card-number" name="gold-card-number" class="form-control">
           <label for="gold-expiry-date">Fecha de expiración</label>
           <input type="text" id="gold-expiry-date" name="gold-expiry-date" class="form-control">
-          <button class="btn btn-primary submit-subscription" type="button">Confirmar</button>
+          <br>
+          <button class="btn btn-primary submit-subscription" type="button" style="background-color: #ffd700;">Confirmar</button>
         </form>
       </div>
-      <div id="premium-form" class="subscription-form" style="display: none;">
+      <div id="premium-form" class="subscription-form" style="display: none;" data-bs-theme="dark">
         <h4 class="text-white mt-3">Completa los datos de tu tarjeta</h4>
         <form id="premium-subscription-form" class="mt-3">
           {% csrf_token %}
@@ -72,7 +74,8 @@
           <input type="text" id="premium-card-number" name="premium-card-number" class="form-control">
           <label for="premium-expiry-date">Fecha de expiración</label>
           <input type="text" id="premium-expiry-date" name="premium-expiry-date" class="form-control">
-          <button class="btn btn-success submit-subscription" type="button">Confirmar</button>
+          <br>
+          <button class="btn btn-success submit-subscription" type="button" style="background-color: #000000;">Confirmar</button>
         </form>
       </div>
     </div>

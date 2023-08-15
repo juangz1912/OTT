@@ -1,27 +1,28 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %}{% block content %}{% load crispy_forms_tags %}
+<h3 class="d-flex justify-content-center align-items-center">Inicio de sesión</h3>
 
-{% block content %}
-{% load crispy_forms_tags %}
-
-<h3>Login</h3>
-<br />
-
-<form action="{% url 'login' %}" method="post">
-  {% csrf_token %}
-
-  <div class="card mx-auto" style="width: 30rem;" data-bs-theme="dark">
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card" style="width: 30rem;" data-bs-theme="dark">
     <div class="card-body">
-      <h5 class="card-title">Ingrese sus credenciales</h5>
+      <h5 class="card-title text-center">Ingrese sus credenciales</h5>
       
-      {{ form | crispy }}
+      <form action="{% url 'login' %}" method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        {{ form | crispy }}
 
-      <!-- Manually include the CSRF token input field -->
-      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <!-- Manually include the CSRF token input field -->
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-      <a href="{% url 'home' %}" class="card-link">Inicio</a>
-      <a href="{% url 'register' %}" class="card-link">Registrase</a>
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+        </div>
+      </form>
 
-      <button class="btn btn-sm btn-primary float-end" type="submit">Iniciar Sesión</button>
+      <div class="text-center mt-3">
+        <a href="{% url 'home' %}" class="card-link">Inicio</a>
+        <a href="{% url 'register' %}" class="card-link">Registrarse</a>
+      </div>
       
       {% if form.non_field_errors %}
         <div class="alert alert-danger mt-3" role="alert">
@@ -40,10 +41,8 @@
           {{ form.password.errors.as_text }}
         </div>
       {% endif %}
-      
-      
     </div>
   </div>
-</form>
+</div>
 
 {% endblock %}
