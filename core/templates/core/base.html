@@ -18,9 +18,12 @@
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link" href={% url 'products' %}>Videos</a>
+                    <a class="nav-link" href={% url 'products' %}>Principal</a>
                   </li>
                   {% if request.user.is_authenticated %}
+                  <li>
+                    <a class="nav-link" href="http://127.0.0.1:8000/usuario">Perfil</a>
+                  </li>
                   <li>
                       <a class="nav-link" href={% url 'exit' %}>Salir</a>
                   </li>
