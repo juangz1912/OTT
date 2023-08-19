@@ -35,6 +35,9 @@ def Principal(request):
     obj=Item.objects.all()
     return render(request, 'core/products.html', {'obj':obj})
 
+def perfil(request):
+    return render(request,  'core/user.html')
+
 def Reggaeton(request):
     obj=Item2.objects.all()
     return render(request, 'core/reggaeton.html', {'obj':obj})

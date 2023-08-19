@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.urls import path
 from .views import home, exit, register
-from .views import Reggaeton, Principal, House, Trap
+from .views import Reggaeton, Principal, House, Trap, perfil
 
 urlpatterns = [
     path('', Principal, name='home'),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('Reggaeton', Reggaeton, name='reggaeton'),
     path('Trap', Trap, name='trap'),
     path('House', House, name='house'),
+    path('user/', perfil, name='user'),
 
 ]
 
