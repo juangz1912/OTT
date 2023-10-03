@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.forms import ValidationError
+from .models import Item, Item2, Item3, Item4  # Asegúrate de importar tus modelos reales
 
 class LoginViewTestCase(TestCase):
     def setUp(self):
@@ -10,13 +11,13 @@ class LoginViewTestCase(TestCase):
 
     def test_login_page_loads_properly(self):
         # Prueba que la página de inicio de sesión cargue correctamente
-        response = self.client.get(reverse('login'))
+        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'core/registration/login.html')  # Ajusta la ruta de la plantilla aquí
 
     def test_login_form(self):
         # Prueba que el formulario de inicio de sesión esté presente en la página
-        response = self.client.get(reverse('login'))
+        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
         self.assertContains(response, '<form')
         self.assertContains(response, 'name="username"')
         self.assertContains(response, 'name="password"')
@@ -40,12 +41,29 @@ class LoginViewTestCase(TestCase):
 
     def test_csrf_token(self):
         # Prueba que el token CSRF esté presente en el formulario
-        response = self.client.get(reverse('login'))
+        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
         self.assertContains(response, 'csrfmiddlewaretoken')
 
     def test_links(self):
         # Prueba que los enlaces a las páginas de inicio y registro estén presentes
-        response = self.client.get(reverse('login'))
+        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
         self.assertContains(response, reverse('register'))
 
-# Create your tests here.
+class ProductViewTestCase(TestCase):
+    def setUp(self):
+        # Crea algunos objetos de modelo de ejemplo para usar en las pruebas
+        Item.objects.create(video='<URL_DEL_VIDEO_Item>')
+        Item2.objects.create(video='<URL_DEL_VIDEO_Item2>')
+        Item3.objects.create(video='<URL_DEL_VIDEO_Item3>')
+        Item4.objects.create(video='<URL_DEL_VIDEO_Item4>')
+        # Crea más objetos según sea necesario
+
+    def test_product_page_loads_properly(self):
+        # Prueba que la página de productos cargue correctamente
+        response = self.client.get(reverse('products'))  # Cambia 'products' por el nombre real de tu vista de productos
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'core/core/products.html')  # Ajusta la ruta de la plantilla aquí
+
+    # ... Otras pruebas de ProductView ...
+
+# Otras pruebas de ProductView y LoginView pueden continuar aquí
