@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.forms import ValidationError
-from .models import Item, Item2, Item3, Item4  # Asegúrate de importar tus modelos reales
+from .models import Item, Item2, Item3, Item4
 
 class LoginViewTestCase(TestCase):
     def setUp(self):
@@ -11,13 +11,13 @@ class LoginViewTestCase(TestCase):
 
     def test_login_page_loads_properly(self):
         # Prueba que la página de inicio de sesión cargue correctamente
-        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
+        response = self.client.get(reverse('login')) 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/registration/login.html')  # Ajusta la ruta de la plantilla aquí
+        self.assertTemplateUsed(response, 'core/registration/login.html')
 
     def test_login_form(self):
         # Prueba que el formulario de inicio de sesión esté presente en la página
-        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
+        response = self.client.get(reverse('login')) 
         self.assertContains(response, '<form')
         self.assertContains(response, 'name="username"')
         self.assertContains(response, 'name="password"')
@@ -26,12 +26,12 @@ class LoginViewTestCase(TestCase):
     def test_successful_login(self):
         # Prueba el inicio de sesión exitoso
         response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'testpassword'})
-        self.assertEqual(response.status_code, 302)  # Debería redirigir después de un inicio de sesión exitoso
+        self.assertEqual(response.status_code, 302) 
 
     def test_failed_login(self):
         # Prueba el inicio de sesión fallido con credenciales incorrectas
         response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'incorrectpassword'})
-        self.assertEqual(response.status_code, 200)  # Debería volver a la página de inicio de sesión
+        self.assertEqual(response.status_code, 200)
         self.assertFormError(response, 'form', None, 'Por favor, introduzca un nombre de usuario y contraseña válidos.')
 
     def test_non_field_errors(self):
@@ -41,12 +41,12 @@ class LoginViewTestCase(TestCase):
 
     def test_csrf_token(self):
         # Prueba que el token CSRF esté presente en el formulario
-        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
+        response = self.client.get(reverse('login')) 
         self.assertContains(response, 'csrfmiddlewaretoken')
 
     def test_links(self):
         # Prueba que los enlaces a las páginas de inicio y registro estén presentes
-        response = self.client.get(reverse('login'))  # Cambia 'home' por 'login' o el nombre real de tu vista de inicio de sesión
+        response = self.client.get(reverse('login'))
         self.assertContains(response, reverse('register'))
 
 class ProductViewTestCase(TestCase):
@@ -60,10 +60,7 @@ class ProductViewTestCase(TestCase):
 
     def test_product_page_loads_properly(self):
         # Prueba que la página de productos cargue correctamente
-        response = self.client.get(reverse('products'))  # Cambia 'products' por el nombre real de tu vista de productos
+        response = self.client.get(reverse('products')) 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/core/products.html')  # Ajusta la ruta de la plantilla aquí
+        self.assertTemplateUsed(response, 'core/core/products.html') 
 
-    # ... Otras pruebas de ProductView ...
-
-# Otras pruebas de ProductView y LoginView pueden continuar aquí
