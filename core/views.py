@@ -31,21 +31,21 @@ def register(request):
     return render(request, 'registration/register.html', data)
 
 @login_required
-def Principal(request):
+def principal(request):
     obj=Item.objects.all()
     return render(request, 'core/products.html', {'obj':obj})
 
 def perfil(request):
     return render(request,  'core/user.html')
 
-def Reggaeton(request):
+def reggaeton(request):
     obj=Item2.objects.all()
     return render(request, 'core/reggaeton.html', {'obj':obj})
 
-def Trap(request):
+def trap(request):
     obj=Item3.objects.all()
     return render(request, 'core/trap.html', {'obj':obj})
 
-def House(request):
+def house(request):
     obj=Item4.objects.all()
     return render(request, 'core/house.html', {'obj':obj})
