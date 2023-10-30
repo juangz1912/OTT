@@ -17,16 +17,16 @@ Including another URLconf
 
 from django.urls import path
 from .views import home, exit, register
-from .views import Reggaeton, Principal, House, Trap, perfil
+from .views import reggaeton, principal, house, trap, perfil
 
 urlpatterns = [
-    path('', Principal, name='home'),
-    path('products/', Principal, name='products'),
+    path('', principal, name='home'),
+    path('products/', principal, name='products'),
     path('logout/', exit, name='exit'),
     path('register/', register, name='register'),
-    path('Reggaeton', Reggaeton, name='reggaeton'),
-    path('Trap', Trap, name='trap'),
-    path('House', House, name='house'),
+    path('reggaeton', reggaeton, name='reggaeton'),
+    path('trap', trap, name='trap'),
+    path('house', house, name='house'),
     path('user/', perfil, name='user'),
 
 ]

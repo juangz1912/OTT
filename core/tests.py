@@ -13,7 +13,7 @@ class LoginViewTestCase(TestCase):
         # Prueba que la página de inicio de sesión cargue correctamente
         response = self.client.get(reverse('login')) 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'core/registration/login.html')
+        self.assertTemplateUsed(response, 'core/templates/registration/login.html')
 
     def test_login_form(self):
         # Prueba que el formulario de inicio de sesión esté presente en la página
@@ -48,6 +48,86 @@ class LoginViewTestCase(TestCase):
         # Prueba que los enlaces a las páginas de inicio y registro estén presentes
         response = self.client.get(reverse('login'))
         self.assertContains(response, reverse('register'))
+
+class RegisterViewTestCase(TestCase):
+    def test_register_page_loads_properly(self):
+        response = self.client.get(reverse('register'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'core/templates/registration/register.html')  # Ajusta la ruta de la plantilla aquí
+
+    def test_register_form(self):
+        response = self.client.get(reverse('register'))
+        self.assertContains(response, '<form')
+        self.assertContains(response, 'name="username"')
+        self.assertContains(response, 'name="first_name"')
+        self.assertContains(response, 'name="last_name"')
+        self.assertContains(response, 'name="email"')
+        self.assertContains(response, 'name="password1"')
+        self.assertContains(response, 'name="password2"')
+        self.assertContains(response, 'type="submit"')
+
+    def test_successful_registration(self):
+        data = {
+            'username': 'testuser',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+        response = self.client.post(reverse('register'), data)
+        self.assertEqual(response.status_code, 302)  # Debería redirigir después de un registro exitoso
+
+    def test_failed_registration(self):
+        data = {
+            'username': 'testuser',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'differentpassword',  # Contraseña diferente
+        }
+        response = self.client.post(reverse('register'), data)
+        self.assertEqual(response.status_code, 200)  # Debería volver a la página de registro
+        self.assertFormError(response, 'form', 'password2', 'Las contraseñas no coinciden.')
+
+    def test_user_created(self):
+        data = {
+            'username': 'testuser',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+        self.client.post(reverse('register'), data)
+        user = User.objects.get(username='testuser')
+        self.assertIsNotNone(user)
+
+    def test_logged_in_after_registration(self):
+        data = {
+            'username': 'testuser',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+        response = self.client.post(reverse('register'), data)
+        self.assertEqual(self.client.session['_auth_user_id'], str(User.objects.get(username='testuser').id))
+
+    def test_redirect_after_successful_registration(self):
+        data = {
+            'username': 'testuser',
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+        response = self.client.post(reverse('register'), data, follow=True)
+        self.assertEqual(response.status_code, 200)  # Verifica que redirija a la página de inicio o a donde corresponda
+
 
 class ProductViewTestCase(TestCase):
     def setUp(self):
