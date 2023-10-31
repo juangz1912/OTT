@@ -1,3 +1,4 @@
+import pytest
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -213,3 +214,43 @@ class RegisterViewTestCaseMock(TestCase):
 
         # Debería redirigir después de un registro exitoso
         self.assertEqual(response.status_code, 302)
+
+#
+#
+# Fluent Assertions
+#
+#
+
+
+@pytest.mark.django_db
+def test_successful_loginFluent(client):
+    # Prueba el inicio de sesión exitoso
+    response = client.post(
+        reverse('login'), {'username': 'testuser', 'password': 'testpassword'})
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_failed_loginFluent(client):
+    # Prueba el inicio de sesión fallido con credenciales incorrectas
+    response = client.post(
+        reverse('login'), {'username': 'testuser', 'password': 'incorrectpassword'})
+    assert response.status_code == 200
+    assert 'Por favor, introduzca un nombre de usuario y contraseña válidos.' in response.content.decode(
+        'utf-8')
+
+
+@pytest.mark.django_db
+def test_successful_registrationFluent(client):
+    data = {
+        'username': 'testuser',
+        'first_name': 'John',
+        'last_name': 'Doe',
+        'email': 'test@example.com',
+        'password1': 'testpassword',
+        'password2': 'testpassword',
+    }
+    # Simula el envío del formulario de registro
+    response = client.post(reverse('register'), data)
+    # Debería redirigir después de un registro exitoso
+    assert response.status_code == 302
